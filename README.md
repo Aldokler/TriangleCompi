@@ -1,2 +1,2 @@
 # TriangleCompi
-Hey muy buenas a todos guapisimos
+Hey muy buenas a todos guapisimos aqui vegeta setecientos setenta y siete
