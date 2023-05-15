@@ -26,6 +26,7 @@ import Triangle.AbstractSyntaxTrees.EmptyCommand;
 import Triangle.AbstractSyntaxTrees.EmptyExpression;
 import Triangle.AbstractSyntaxTrees.EmptyFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.ErrorTypeDenoter;
+import Triangle.AbstractSyntaxTrees.ForCommand;
 import Triangle.AbstractSyntaxTrees.FuncActualParameter;
 import Triangle.AbstractSyntaxTrees.FuncDeclaration;
 import Triangle.AbstractSyntaxTrees.FuncFormalParameter;
@@ -119,6 +120,10 @@ public class TreeVisitor implements Visitor {
     
     public Object visitRepeatCommand(RepeatCommand ast, Object obj) {
         return(createBinary("Repeat Command", ast.E, ast.C));
+    }
+    
+    public Object visitForCommand(ForCommand ast, Object obj) {
+        return(createQuaternary("For Command", ast.I, ast.E1, ast.E2, ast.C));
     }
     // </editor-fold>
     

@@ -39,6 +39,7 @@ import Triangle.AbstractSyntaxTrees.EmptyExpression;
 import Triangle.AbstractSyntaxTrees.EmptyFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.ErrorTypeDenoter;
 import Triangle.AbstractSyntaxTrees.FieldTypeDenoter;
+import Triangle.AbstractSyntaxTrees.ForCommand;
 import Triangle.AbstractSyntaxTrees.FormalParameter;
 import Triangle.AbstractSyntaxTrees.FormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.FuncActualParameter;
@@ -159,6 +160,18 @@ public final class Checker implements Visitor {
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     if (! eType.equals(StdEnvironment.booleanType))
       reporter.reportError("Boolean expression expected here", "", ast.E.position);
+    ast.C.visit(this, null);
+    return null;
+  }
+
+  public Object visitForCommand(ForCommand ast, Object o) {
+    ast.I.visit(this, null);
+    TypeDenoter e1Type = (TypeDenoter) ast.E1.visit(this, null);
+    if (! e1Type.equals(StdEnvironment.integerType))
+      reporter.reportError("Integer expected here", "", ast.E1.position);
+    TypeDenoter e2Type = (TypeDenoter) ast.E2.visit(this, null);
+    if (! e2Type.equals(StdEnvironment.integerType))
+      reporter.reportError("Integer expected here", "", ast.E2.position);
     ast.C.visit(this, null);
     return null;
   }

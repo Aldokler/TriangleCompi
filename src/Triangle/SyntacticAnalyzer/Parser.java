@@ -37,6 +37,7 @@ import Triangle.AbstractSyntaxTrees.EmptyCommand;
 import Triangle.AbstractSyntaxTrees.EmptyFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.Expression;
 import Triangle.AbstractSyntaxTrees.FieldTypeDenoter;
+import Triangle.AbstractSyntaxTrees.ForCommand;
 import Triangle.AbstractSyntaxTrees.FormalParameter;
 import Triangle.AbstractSyntaxTrees.FormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.FuncActualParameter;
@@ -343,6 +344,21 @@ public class Parser {
         Expression eAST = parseExpression();
         finish(commandPos);
         commandAST = new RepeatCommand(eAST, cAST, commandPos);
+      }
+      break;
+
+    case Token.FOR:
+      {
+        acceptIt();
+        Vname iAST = parseVname();
+        accept(Token.FROM);
+        Expression e1AST = parseExpression();
+        accept(Token.TO);
+        Expression e2AST = parseExpression();
+        accept(Token.DO);
+        Command cAST = parseSingleCommand();
+        finish(commandPos);
+        commandAST = new ForCommand(iAST, e1AST, e2AST, cAST, commandPos);
       }
       break;
 
