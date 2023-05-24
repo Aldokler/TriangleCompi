@@ -25,6 +25,7 @@ import Triangle.AbstractSyntaxTrees.BinaryOperatorDeclaration;
 import Triangle.AbstractSyntaxTrees.BoolTypeDenoter;
 import Triangle.AbstractSyntaxTrees.CallCommand;
 import Triangle.AbstractSyntaxTrees.CallExpression;
+import Triangle.AbstractSyntaxTrees.CaseCommand;
 import Triangle.AbstractSyntaxTrees.CharTypeDenoter;
 import Triangle.AbstractSyntaxTrees.CharacterExpression;
 import Triangle.AbstractSyntaxTrees.CharacterLiteral;
@@ -119,6 +120,20 @@ public final class Checker implements Visitor {
       reporter.reportError("\"%\" is not a procedure identifier",
                            ast.I.spelling, ast.I.position);
     return null;
+  }
+  
+  public Object visitCaseCommand(CaseCommand ast, Object o) {
+    TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
+    if (! eType.equals(StdEnvironment.integerType))
+      reporter.reportError("Integer expected here", "", ast.E.position);
+    for (IntegerLiteral IL : ast.MAP.keySet()){
+        TypeDenoter eType1 = (TypeDenoter) IL.visit(this, null);
+        if (! eType1.equals(StdEnvironment.integerType))
+          reporter.reportError("Integer expected here", "", IL.position);
+        ast.MAP.get(IL).visit(this, null);
+    }
+    ast.C.visit(this, null);
+    return(null);
   }
 
   public Object visitEmptyCommand(EmptyCommand ast, Object o) {

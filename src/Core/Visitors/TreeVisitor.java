@@ -14,9 +14,11 @@ import Triangle.AbstractSyntaxTrees.BinaryOperatorDeclaration;
 import Triangle.AbstractSyntaxTrees.BoolTypeDenoter;
 import Triangle.AbstractSyntaxTrees.CallCommand;
 import Triangle.AbstractSyntaxTrees.CallExpression;
+import Triangle.AbstractSyntaxTrees.CaseCommand;
 import Triangle.AbstractSyntaxTrees.CharTypeDenoter;
 import Triangle.AbstractSyntaxTrees.CharacterExpression;
 import Triangle.AbstractSyntaxTrees.CharacterLiteral;
+import Triangle.AbstractSyntaxTrees.Command;
 import Triangle.AbstractSyntaxTrees.ConstActualParameter;
 import Triangle.AbstractSyntaxTrees.ConstDeclaration;
 import Triangle.AbstractSyntaxTrees.ConstFormalParameter;
@@ -70,6 +72,7 @@ import Triangle.AbstractSyntaxTrees.VarFormalParameter;
 import Triangle.AbstractSyntaxTrees.Visitor;
 import Triangle.AbstractSyntaxTrees.VnameExpression;
 import Triangle.AbstractSyntaxTrees.WhileCommand;
+import java.util.HashMap;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 /**
@@ -96,6 +99,10 @@ public class TreeVisitor implements Visitor {
     
     public Object visitCallCommand(CallCommand ast, Object o) {
         return(createBinary("Call Command", ast.I, ast.APS));
+    }
+  
+    public Object visitCaseCommand(CaseCommand ast, Object o) { 
+        return(createCasernary("Case Command", ast.E, ast.MAP, ast.C));
     }
     
     public Object visitEmptyCommand(EmptyCommand ast, Object o) {
@@ -443,6 +450,26 @@ public class TreeVisitor implements Visitor {
         t.add((DefaultMutableTreeNode)child2.visit(this, null));
         t.add((DefaultMutableTreeNode)child3.visit(this, null));
         t.add((DefaultMutableTreeNode)child4.visit(this, null));
+        
+        return(t);             
+    }
+    
+    /**
+     * Creates a quaternary tree node.
+     * @param caption The tree's caption (text to be shown when the tree is drawn).
+     * @param child1 The first children node.
+     * @param map The list of cases
+     * @param child2 The second children node.
+     * @return The tree node.
+     */
+    public DefaultMutableTreeNode createCasernary(String caption, AST child1, HashMap<IntegerLiteral, Command> map, AST child2) {
+        DefaultMutableTreeNode t = new DefaultMutableTreeNode(caption);
+        t.add((DefaultMutableTreeNode)child1.visit(this, null));
+        for (IntegerLiteral IL : map.keySet()){
+            t.add((DefaultMutableTreeNode)IL.visit(this, null));
+            t.add((DefaultMutableTreeNode)map.get(IL).visit(this, null));
+        }
+        t.add((DefaultMutableTreeNode)child2.visit(this, null));
         
         return(t);             
     }

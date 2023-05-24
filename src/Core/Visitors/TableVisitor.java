@@ -14,6 +14,7 @@ import Triangle.AbstractSyntaxTrees.BinaryOperatorDeclaration;
 import Triangle.AbstractSyntaxTrees.BoolTypeDenoter;
 import Triangle.AbstractSyntaxTrees.CallCommand;
 import Triangle.AbstractSyntaxTrees.CallExpression;
+import Triangle.AbstractSyntaxTrees.CaseCommand;
 import Triangle.AbstractSyntaxTrees.CharTypeDenoter;
 import Triangle.AbstractSyntaxTrees.CharacterExpression;
 import Triangle.AbstractSyntaxTrees.CharacterLiteral;
@@ -100,6 +101,16 @@ public class TableVisitor implements Visitor {
       ast.V.visit(this, null);
       ast.E.visit(this, null);
       
+      return(null);
+  }
+  
+  public Object visitCaseCommand(CaseCommand ast, Object o) { 
+      ast.E.visit(this, null);
+      for (IntegerLiteral IL : ast.MAP.keySet()){
+          IL.visit(this, null);
+          ast.MAP.get(IL).visit(this, null);
+      }
+      ast.C.visit(this, null);
       return(null);
   }
   

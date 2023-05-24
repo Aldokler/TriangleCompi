@@ -24,6 +24,7 @@ import Triangle.AbstractSyntaxTrees.AssignCommand;
 import Triangle.AbstractSyntaxTrees.BinaryExpression;
 import Triangle.AbstractSyntaxTrees.CallCommand;
 import Triangle.AbstractSyntaxTrees.CallExpression;
+import Triangle.AbstractSyntaxTrees.CaseCommand;
 import Triangle.AbstractSyntaxTrees.CharacterExpression;
 import Triangle.AbstractSyntaxTrees.CharacterLiteral;
 import Triangle.AbstractSyntaxTrees.Command;
@@ -83,6 +84,7 @@ import Triangle.AbstractSyntaxTrees.VarFormalParameter;
 import Triangle.AbstractSyntaxTrees.Vname;
 import Triangle.AbstractSyntaxTrees.VnameExpression;
 import Triangle.AbstractSyntaxTrees.WhileCommand;
+import java.util.HashMap;
 
 public class Parser {
 
@@ -333,6 +335,30 @@ public class Parser {
         Command cAST = parseSingleCommand();
         finish(commandPos);
         commandAST = new WhileCommand(eAST, cAST, commandPos);
+      }
+      break;
+
+    case Token.CASE:
+      {
+        acceptIt();
+        Expression eAST = parseExpression();
+          System.out.println(eAST.toString());
+        accept(Token.OF);
+        HashMap <IntegerLiteral, Command> map = new HashMap<IntegerLiteral, Command>();
+        while(currentToken.kind != Token.ELSE){
+            IntegerLiteral iLAST = parseIntegerLiteral();
+            accept(Token.COLON);
+            Command cAST = parseSingleCommand();
+            accept(Token.SEMICOLON);
+            map.put(iLAST, cAST);
+        }
+        if (!map.isEmpty()){
+            accept(Token.ELSE);
+            accept(Token.COLON);
+            Command cAST = parseSingleCommand();
+            finish(commandPos);
+            commandAST = new CaseCommand(eAST, map, cAST, commandPos);
+        }
       }
       break;
 

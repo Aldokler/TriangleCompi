@@ -26,9 +26,11 @@ import Triangle.AbstractSyntaxTrees.BinaryOperatorDeclaration;
 import Triangle.AbstractSyntaxTrees.BoolTypeDenoter;
 import Triangle.AbstractSyntaxTrees.CallCommand;
 import Triangle.AbstractSyntaxTrees.CallExpression;
+import Triangle.AbstractSyntaxTrees.CaseCommand;
 import Triangle.AbstractSyntaxTrees.CharTypeDenoter;
 import Triangle.AbstractSyntaxTrees.CharacterExpression;
 import Triangle.AbstractSyntaxTrees.CharacterLiteral;
+import Triangle.AbstractSyntaxTrees.Command;
 import Triangle.AbstractSyntaxTrees.ConstActualParameter;
 import Triangle.AbstractSyntaxTrees.ConstDeclaration;
 import Triangle.AbstractSyntaxTrees.ConstFormalParameter;
@@ -82,6 +84,8 @@ import Triangle.AbstractSyntaxTrees.VarFormalParameter;
 import Triangle.AbstractSyntaxTrees.Visitor;
 import Triangle.AbstractSyntaxTrees.VnameExpression;
 import Triangle.AbstractSyntaxTrees.WhileCommand;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class LayoutVisitor implements Visitor {
 
@@ -102,6 +106,10 @@ public class LayoutVisitor implements Visitor {
   public Object visitCallCommand(CallCommand ast, Object obj) {
     return layoutBinary("CallCom.", ast.I, ast.APS);
    }
+  
+  public Object visitCaseCommand(CaseCommand ast, Object o) { 
+    return layoutCasernary("Case Command", ast.E, ast.MAP, ast.C);
+  }
 
   public Object visitEmptyCommand(EmptyCommand ast, Object obj) {
     return layoutNullary("EmptyCom.");
@@ -429,6 +437,27 @@ public class LayoutVisitor implements Visitor {
     attachParent(dt, join(dt));
     return dt;
   }
+
+    private DrawingTree layoutCasernary(String name, AST child1, HashMap<IntegerLiteral, Command> map,
+            AST child2) {
+        DrawingTree dt = layoutCaption(name);
+        ArrayList<DrawingTree> arbolito = new ArrayList<DrawingTree>();
+        DrawingTree d1 = (DrawingTree) child1.visit(this, null);
+        arbolito.add(d1);
+        for (IntegerLiteral IL : map.keySet()) {
+            DrawingTree dIL = (DrawingTree) IL.visit(this, null);
+            DrawingTree dMap = (DrawingTree) map.get(IL).visit(this, null);
+            arbolito.add(dIL);
+            arbolito.add(dMap);
+        }
+        DrawingTree d2 = (DrawingTree) child2.visit(this, null);
+        arbolito.add(d2);
+        DrawingTree[] arbolote = new DrawingTree[arbolito.size()];
+        arbolito.toArray(arbolote);
+        dt.setChildren(arbolote);
+        attachParent(dt, join(dt));
+        return dt;
+    }
 
   private void attachParent(DrawingTree dt, int w) {
     int y = PARENT_SEP;
