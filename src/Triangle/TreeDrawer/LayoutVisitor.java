@@ -331,7 +331,7 @@ public class LayoutVisitor implements Visitor {
   }
 
   public Object visitStringTypeDenoter(StringTypeDenoter ast, Object obj) {
-    return layoutBinary("StringTypeD.", ast.IL, ast.T);
+    return layoutNullary("String");
   }
 
   public Object visitBoolTypeDenoter(BoolTypeDenoter ast, Object obj) {

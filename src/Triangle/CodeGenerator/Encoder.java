@@ -233,8 +233,10 @@ public final class Encoder implements Visitor {
     }
     
     public Object visitStringExpression(StringExpression ast, Object o) {
-        ast.type.visit(this, null);
-        return ast.SA.visit(this, o);
+        Frame frame = (Frame) o;
+        Integer valSize = (Integer) ast.type.visit(this, null);
+        emit(Machine.LOADLop, 0, 0, ast.SA.spelling.charAt(1));
+        return valSize;
     }
 
     public Object visitBinaryExpression(BinaryExpression ast, Object o) {
@@ -613,16 +615,11 @@ public final class Encoder implements Visitor {
     }
 
     public Object visitStringTypeDenoter(StringTypeDenoter ast, Object o) {
-        int typeSize;
         if (ast.entity == null) {
-            int elemSize = ((Integer) ast.T.visit(this, null)).intValue();
-            typeSize = Integer.parseInt(ast.IL.spelling) * elemSize;
-            ast.entity = new TypeRepresentation(typeSize);
+            ast.entity = new TypeRepresentation(Machine.characterSize);
             writeTableDetails(ast);
-        } else {
-            typeSize = ast.entity.size;
         }
-        return new Integer(typeSize);
+        return new Integer(Machine.characterSize);
     }
 
     public Object visitBoolTypeDenoter(BoolTypeDenoter ast, Object o) {

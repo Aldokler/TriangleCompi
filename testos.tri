@@ -1,0 +1,8 @@
+let
+    var zx : String
+in
+begin
+
+    zx := "Hola mundo";
+
+end

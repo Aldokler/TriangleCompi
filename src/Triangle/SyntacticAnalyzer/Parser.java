@@ -216,18 +216,18 @@ public class Parser {
 // AST to represent it.
 
   StringLiteral parseStringLiteral() throws SyntaxError {
-    StringLiteral CL = null;
+    StringLiteral SL = null;
 
     if (currentToken.kind == Token.STRING) {
       previousTokenPosition = currentToken.position;
       String spelling = currentToken.spelling;
-      CL = new StringLiteral(spelling, previousTokenPosition);
+      SL = new StringLiteral(spelling, previousTokenPosition);
       currentToken = lexicalAnalyser.scan();
     } else {
-      CL = null;
+      SL = null;
       syntacticError("String literal expected here", "");
     }
-    return CL;
+    return SL;
   }
 
 // parseIdentifier parses an identifier, and constructs a leaf AST to

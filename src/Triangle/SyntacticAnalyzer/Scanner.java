@@ -132,7 +132,7 @@ public final class Scanner {
       takeIt();
       while (currentChar != '"'){
           takeIt();
-          if (currentChar == -1){
+          if (currentChar == '\u0000'){
               return Token.ERROR;
           }
       }

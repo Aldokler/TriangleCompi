@@ -106,8 +106,8 @@ public final class Checker implements Visitor {
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     if (!ast.V.variable)
       reporter.reportError ("LHS of assignment is not a variable", "", ast.V.position);
-    if (! eType.equals(vType))
-      reporter.reportError ("assignment incompatibilty", "", ast.position);
+    if (! eType.equals(vType)){
+      reporter.reportError ("assignment incompatibilty", "", ast.position);}
     return null;
   }
 
@@ -210,7 +210,8 @@ public final class Checker implements Visitor {
   }
 
   public Object visitStringExpression(StringExpression ast, Object o) {
-    return StdEnvironment.charType;
+    ast.type = StdEnvironment.stringType;
+    return ast.type;
   }
 
   public Object visitBinaryExpression(BinaryExpression ast, Object o) {
@@ -653,8 +654,7 @@ public final class Checker implements Visitor {
   }
 
   public Object visitStringTypeDenoter(StringTypeDenoter ast, Object o) {
-    ast.T = (TypeDenoter) ast.T.visit(this, null);
-    return ast;
+    return StdEnvironment.stringType;
   }
 
   public Object visitBoolTypeDenoter(BoolTypeDenoter ast, Object o) {
@@ -708,7 +708,7 @@ public final class Checker implements Visitor {
   }
   
   public Object visitStringLiteral(StringLiteral CL, Object o) {
-    return StdEnvironment.charType;
+    return StdEnvironment.stringType;
   }
 
   public Object visitIdentifier(Identifier I, Object o) {
@@ -965,6 +965,7 @@ public final class Checker implements Visitor {
     StdEnvironment.booleanType = new BoolTypeDenoter(dummyPos);
     StdEnvironment.integerType = new IntTypeDenoter(dummyPos);
     StdEnvironment.charType = new CharTypeDenoter(dummyPos);
+    StdEnvironment.stringType = new StringTypeDenoter(dummyPos);
     StdEnvironment.anyType = new AnyTypeDenoter(dummyPos);
     StdEnvironment.errorType = new ErrorTypeDenoter(dummyPos);
 
@@ -988,6 +989,7 @@ public final class Checker implements Visitor {
     StdEnvironment.notlessDecl = declareStdBinaryOp(">=", StdEnvironment.integerType, StdEnvironment.integerType, StdEnvironment.booleanType);
 
     StdEnvironment.charDecl = declareStdType("Char", StdEnvironment.charType);
+    StdEnvironment.stringDecl = declareStdType("String", StdEnvironment.stringType);
     StdEnvironment.chrDecl = declareStdFunc("chr", new SingleFormalParameterSequence(
                                       new ConstFormalParameter(dummyI, StdEnvironment.integerType, dummyPos), dummyPos), StdEnvironment.charType);
     StdEnvironment.ordDecl = declareStdFunc("ord", new SingleFormalParameterSequence(

@@ -63,9 +63,9 @@ final class Token extends Object {
     // literals, identifiers, operators...
     INTLITERAL	= 0,
     CHARLITERAL	= 1,
-    IDENTIFIER	= 2,
-    OPERATOR	= 3,
-    STRING      = 4,
+    STRING      = 2,
+    IDENTIFIER	= 3,
+    OPERATOR	= 4,
 
     // reserved words - must be in alphabetical order...
     ARRAY		= 5,
@@ -106,18 +106,17 @@ final class Token extends Object {
     RBRACKET	        = 37,
     LCURLY		= 38,
     RCURLY		= 39,
-    DOUBLECOMILLAS      = 40,
 
     // special tokens...
-    EOT			= 41,
-    ERROR		= 42;
+    EOT			= 40,
+    ERROR		= 41;
 
   private static String[] tokenTable = new String[] {
     "<int>",
     "<char>",
+    "<String>",
     "<identifier>",
     "<operator>",
-    "<string>",
     "array",
     "begin",
     "case",
@@ -153,7 +152,6 @@ final class Token extends Object {
     "]",
     "{",
     "}",
-    "\"",
     "",
     "<error>"
   };

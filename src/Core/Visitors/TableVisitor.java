@@ -532,8 +532,6 @@ public class TableVisitor implements Visitor {
   }
   
   public Object visitStringTypeDenoter(StringTypeDenoter ast, Object o) { 
-      ast.IL.visit(this, null);
-      ast.T.visit(this, null);
       
       return(null);
   }

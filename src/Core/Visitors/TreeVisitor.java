@@ -325,7 +325,7 @@ public class TreeVisitor implements Visitor {
     }
     
     public Object visitStringTypeDenoter(StringTypeDenoter ast, Object obj) {
-        return(createBinary("String Type Denoter", ast.IL, ast.T));
+        return(createNullary("String"));
     }
     
     public Object visitBoolTypeDenoter(BoolTypeDenoter ast, Object obj) {

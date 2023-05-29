@@ -18,11 +18,8 @@ import Triangle.SyntacticAnalyzer.SourcePosition;
 
 public class StringTypeDenoter extends TypeDenoter {
 
-  public StringTypeDenoter (IntegerLiteral ilAST, TypeDenoter tAST,
-                    SourcePosition thePosition) {
+  public StringTypeDenoter (SourcePosition thePosition) {
     super (thePosition);
-    IL = ilAST;
-    T = tAST;
   }
 
   public Object visit(Visitor v, Object o) {
@@ -32,13 +29,7 @@ public class StringTypeDenoter extends TypeDenoter {
   public boolean equals (Object obj) {
     if (obj != null && obj instanceof ErrorTypeDenoter)
       return true;
-    else if (obj != null && obj instanceof StringTypeDenoter)
-      return this.IL.spelling.compareTo(((StringTypeDenoter) obj).IL.spelling) == 0 &&
-             this.T.equals(((StringTypeDenoter) obj).T);
     else
-      return false;
+      return (obj != null && obj instanceof StringTypeDenoter);
   }
-
-  public IntegerLiteral IL;
-  public TypeDenoter T;
 }
