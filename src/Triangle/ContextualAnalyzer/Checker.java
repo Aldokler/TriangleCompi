@@ -59,6 +59,7 @@ import Triangle.AbstractSyntaxTrees.MultipleArrayAggregate;
 import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
 import Triangle.AbstractSyntaxTrees.MultipleFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleRecordAggregate;
+import Triangle.AbstractSyntaxTrees.MultipleStringAggregate;
 import Triangle.AbstractSyntaxTrees.Operator;
 import Triangle.AbstractSyntaxTrees.ProcActualParameter;
 import Triangle.AbstractSyntaxTrees.ProcDeclaration;
@@ -76,6 +77,10 @@ import Triangle.AbstractSyntaxTrees.SingleArrayAggregate;
 import Triangle.AbstractSyntaxTrees.SingleFieldTypeDenoter;
 import Triangle.AbstractSyntaxTrees.SingleFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.SingleRecordAggregate;
+import Triangle.AbstractSyntaxTrees.SingleStringAggregate;
+import Triangle.AbstractSyntaxTrees.StringExpression;
+import Triangle.AbstractSyntaxTrees.StringLiteral;
+import Triangle.AbstractSyntaxTrees.StringTypeDenoter;
 import Triangle.AbstractSyntaxTrees.SubscriptVname;
 import Triangle.AbstractSyntaxTrees.Terminal;
 import Triangle.AbstractSyntaxTrees.TypeDeclaration;
@@ -202,6 +207,10 @@ public final class Checker implements Visitor {
                                            ast.position);
     ast.type = new ArrayTypeDenoter(il, elemType, ast.position);
     return ast.type;
+  }
+
+  public Object visitStringExpression(StringExpression ast, Object o) {
+    return StdEnvironment.charType;
   }
 
   public Object visitBinaryExpression(BinaryExpression ast, Object o) {
@@ -408,6 +417,21 @@ public final class Checker implements Visitor {
     TypeDenoter elemType = (TypeDenoter) ast.E.visit(this, null);
     ast.elemCount = 1;
     return elemType;
+  }
+
+  // String Aggregates
+
+  // Returns the TypeDenoter for the String Aggregate. Does not use the
+  // given object.
+
+  public Object visitMultipleStringAggregate(MultipleStringAggregate ast, Object o) {
+    ast.elemCount = ast.SA.elemCount + 1;
+    return StdEnvironment.charType;
+  }
+
+  public Object visitSingleStringAggregate(SingleStringAggregate ast, Object o) {
+    ast.elemCount = 1;
+    return StdEnvironment.charType;
   }
 
   // Record Aggregates
@@ -628,6 +652,11 @@ public final class Checker implements Visitor {
     return ast;
   }
 
+  public Object visitStringTypeDenoter(StringTypeDenoter ast, Object o) {
+    ast.T = (TypeDenoter) ast.T.visit(this, null);
+    return ast;
+  }
+
   public Object visitBoolTypeDenoter(BoolTypeDenoter ast, Object o) {
     return StdEnvironment.booleanType;
   }
@@ -675,6 +704,10 @@ public final class Checker implements Visitor {
 
   // Literals, Identifiers and Operators
   public Object visitCharacterLiteral(CharacterLiteral CL, Object o) {
+    return StdEnvironment.charType;
+  }
+  
+  public Object visitStringLiteral(StringLiteral CL, Object o) {
     return StdEnvironment.charType;
   }
 

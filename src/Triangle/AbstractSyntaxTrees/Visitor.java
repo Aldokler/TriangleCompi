@@ -31,6 +31,7 @@ public interface Visitor {
 
   // Expressions
   public abstract Object visitArrayExpression(ArrayExpression ast, Object o);
+  public abstract Object visitStringExpression(StringExpression ast, Object o);
   public abstract Object visitBinaryExpression(BinaryExpression ast, Object o);
   public abstract Object visitCallExpression(CallExpression ast, Object o);
   public abstract Object visitCharacterExpression(CharacterExpression ast, Object o);
@@ -55,6 +56,10 @@ public interface Visitor {
   // Array Aggregates
   public abstract Object visitMultipleArrayAggregate(MultipleArrayAggregate ast, Object o);
   public abstract Object visitSingleArrayAggregate(SingleArrayAggregate ast, Object o);
+
+  // String Aggregates
+  public abstract Object visitMultipleStringAggregate(MultipleStringAggregate ast, Object o);
+  public abstract Object visitSingleStringAggregate(SingleStringAggregate ast, Object o);
 
   // Record Aggregates
   public abstract Object visitMultipleRecordAggregate(MultipleRecordAggregate ast, Object o);
@@ -83,6 +88,7 @@ public interface Visitor {
   // Type Denoters
   public abstract Object visitAnyTypeDenoter(AnyTypeDenoter ast, Object o);
   public abstract Object visitArrayTypeDenoter(ArrayTypeDenoter ast, Object o);
+  public abstract Object visitStringTypeDenoter(StringTypeDenoter ast, Object o);
   public abstract Object visitBoolTypeDenoter(BoolTypeDenoter ast, Object o);
   public abstract Object visitCharTypeDenoter(CharTypeDenoter ast, Object o);
   public abstract Object visitErrorTypeDenoter(ErrorTypeDenoter ast, Object o);
@@ -98,6 +104,7 @@ public interface Visitor {
   public abstract Object visitIdentifier(Identifier ast, Object o);
   public abstract Object visitIntegerLiteral(IntegerLiteral ast, Object o);
   public abstract Object visitOperator(Operator ast, Object o);
+  public abstract Object visitStringLiteral(StringLiteral ast, Object o);
 
   // Value-or-variable names
   public abstract Object visitDotVname(DotVname ast, Object o);

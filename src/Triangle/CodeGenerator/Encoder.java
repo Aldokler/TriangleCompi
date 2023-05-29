@@ -63,6 +63,7 @@ import Triangle.AbstractSyntaxTrees.MultipleArrayAggregate;
 import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
 import Triangle.AbstractSyntaxTrees.MultipleFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleRecordAggregate;
+import Triangle.AbstractSyntaxTrees.MultipleStringAggregate;
 import Triangle.AbstractSyntaxTrees.Operator;
 import Triangle.AbstractSyntaxTrees.ProcActualParameter;
 import Triangle.AbstractSyntaxTrees.ProcDeclaration;
@@ -80,6 +81,10 @@ import Triangle.AbstractSyntaxTrees.SingleArrayAggregate;
 import Triangle.AbstractSyntaxTrees.SingleFieldTypeDenoter;
 import Triangle.AbstractSyntaxTrees.SingleFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.SingleRecordAggregate;
+import Triangle.AbstractSyntaxTrees.SingleStringAggregate;
+import Triangle.AbstractSyntaxTrees.StringExpression;
+import Triangle.AbstractSyntaxTrees.StringLiteral;
+import Triangle.AbstractSyntaxTrees.StringTypeDenoter;
 import Triangle.AbstractSyntaxTrees.SubscriptVname;
 import Triangle.AbstractSyntaxTrees.TypeDeclaration;
 import Triangle.AbstractSyntaxTrees.UnaryExpression;
@@ -225,6 +230,11 @@ public final class Encoder implements Visitor {
     public Object visitArrayExpression(ArrayExpression ast, Object o) {
         ast.type.visit(this, null);
         return ast.AA.visit(this, o);
+    }
+    
+    public Object visitStringExpression(StringExpression ast, Object o) {
+        ast.type.visit(this, null);
+        return ast.SA.visit(this, o);
     }
 
     public Object visitBinaryExpression(BinaryExpression ast, Object o) {
@@ -431,6 +441,20 @@ public final class Encoder implements Visitor {
         return ast.E.visit(this, o);
     }
 
+    // String Aggregates
+    public Object visitMultipleStringAggregate(MultipleStringAggregate ast,
+            Object o) {
+        Frame frame = (Frame) o;
+        int elemSize = ((Integer) ast.CL.visit(this, frame)).intValue();
+        Frame frame1 = new Frame(frame, elemSize);
+        int arraySize = ((Integer) ast.SA.visit(this, frame1)).intValue();
+        return new Integer(elemSize + arraySize);
+    }
+
+    public Object visitSingleStringAggregate(SingleStringAggregate ast, Object o) {
+        return ast.CL.visit(this, o);
+    }
+
     // Record Aggregates
     public Object visitMultipleRecordAggregate(MultipleRecordAggregate ast,
             Object o) {
@@ -588,6 +612,19 @@ public final class Encoder implements Visitor {
         return new Integer(typeSize);
     }
 
+    public Object visitStringTypeDenoter(StringTypeDenoter ast, Object o) {
+        int typeSize;
+        if (ast.entity == null) {
+            int elemSize = ((Integer) ast.T.visit(this, null)).intValue();
+            typeSize = Integer.parseInt(ast.IL.spelling) * elemSize;
+            ast.entity = new TypeRepresentation(typeSize);
+            writeTableDetails(ast);
+        } else {
+            typeSize = ast.entity.size;
+        }
+        return new Integer(typeSize);
+    }
+
     public Object visitBoolTypeDenoter(BoolTypeDenoter ast, Object o) {
         if (ast.entity == null) {
             ast.entity = new TypeRepresentation(Machine.booleanSize);
@@ -669,6 +706,10 @@ public final class Encoder implements Visitor {
 
     // Literals, Identifiers and Operators
     public Object visitCharacterLiteral(CharacterLiteral ast, Object o) {
+        return null;
+    }
+    
+    public Object visitStringLiteral(StringLiteral ast, Object o) {
         return null;
     }
 

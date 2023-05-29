@@ -56,6 +56,7 @@ import Triangle.AbstractSyntaxTrees.MultipleArrayAggregate;
 import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
 import Triangle.AbstractSyntaxTrees.MultipleFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleRecordAggregate;
+import Triangle.AbstractSyntaxTrees.MultipleStringAggregate;
 import Triangle.AbstractSyntaxTrees.Operator;
 import Triangle.AbstractSyntaxTrees.ProcActualParameter;
 import Triangle.AbstractSyntaxTrees.ProcDeclaration;
@@ -74,6 +75,10 @@ import Triangle.AbstractSyntaxTrees.SingleArrayAggregate;
 import Triangle.AbstractSyntaxTrees.SingleFieldTypeDenoter;
 import Triangle.AbstractSyntaxTrees.SingleFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.SingleRecordAggregate;
+import Triangle.AbstractSyntaxTrees.SingleStringAggregate;
+import Triangle.AbstractSyntaxTrees.StringAggregate;
+import Triangle.AbstractSyntaxTrees.StringExpression;
+import Triangle.AbstractSyntaxTrees.StringLiteral;
 import Triangle.AbstractSyntaxTrees.SubscriptVname;
 import Triangle.AbstractSyntaxTrees.TypeDeclaration;
 import Triangle.AbstractSyntaxTrees.TypeDenoter;
@@ -203,6 +208,24 @@ public class Parser {
     } else {
       CL = null;
       syntacticError("character literal expected here", "");
+    }
+    return CL;
+  }
+
+// parseCharacterLiteral parses a character-literal, and constructs a leaf
+// AST to represent it.
+
+  StringLiteral parseStringLiteral() throws SyntaxError {
+    StringLiteral CL = null;
+
+    if (currentToken.kind == Token.STRING) {
+      previousTokenPosition = currentToken.position;
+      String spelling = currentToken.spelling;
+      CL = new StringLiteral(spelling, previousTokenPosition);
+      currentToken = lexicalAnalyser.scan();
+    } else {
+      CL = null;
+      syntacticError("String literal expected here", "");
     }
     return CL;
   }
@@ -491,6 +514,14 @@ public class Parser {
         CharacterLiteral clAST= parseCharacterLiteral();
         finish(expressionPos);
         expressionAST = new CharacterExpression(clAST, expressionPos);
+      }
+      break;
+
+    case Token.STRING:
+      {
+        StringLiteral clAST= parseStringLiteral();
+        finish(expressionPos);
+        expressionAST = new StringExpression(clAST, expressionPos);
       }
       break;
 

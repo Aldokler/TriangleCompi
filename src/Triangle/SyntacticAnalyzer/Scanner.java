@@ -128,6 +128,17 @@ public final class Scanner {
       } else
         return Token.ERROR;
 
+    case '"':
+      takeIt();
+      while (currentChar != '"'){
+          takeIt();
+          if (currentChar == -1){
+              return Token.ERROR;
+          }
+      }
+      takeIt();
+      return Token.STRING;
+      
     case '.':
       takeIt();
       return Token.DOT;
