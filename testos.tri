@@ -4,5 +4,7 @@ in
 begin
 
     zx := "Hola mundo";
+    spawn(zx);
+	if true then put('d') else put('x')
 
 end

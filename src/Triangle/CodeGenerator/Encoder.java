@@ -891,6 +891,7 @@ public final class Encoder implements Visitor {
         elaborateStdPrimRoutine(StdEnvironment.putintDecl, Machine.putintDisplacement);
         elaborateStdPrimRoutine(StdEnvironment.geteolDecl, Machine.geteolDisplacement);
         elaborateStdPrimRoutine(StdEnvironment.puteolDecl, Machine.puteolDisplacement);
+        elaborateStdPrimRoutine(StdEnvironment.spawnDecl, Machine.spawnDisplacement);
         elaborateStdEqRoutine(StdEnvironment.equalDecl, Machine.eqDisplacement);
         elaborateStdEqRoutine(StdEnvironment.unequalDecl, Machine.neDisplacement);
     }

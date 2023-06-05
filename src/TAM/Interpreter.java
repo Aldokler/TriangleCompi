@@ -428,6 +428,10 @@ public class Interpreter {
       case Machine.disposeDisplacement:
         ST = ST - 1; // no action taken at present
         break;
+      case Machine.spawnDisplacement:
+        ST = ST - 1; // no action taken at present
+        System.out.println("Haciendo las cosas por separado mi rey");
+        break;
     }
   }
 

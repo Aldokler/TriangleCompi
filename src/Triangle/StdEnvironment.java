@@ -27,7 +27,7 @@ public final class StdEnvironment {
   // These are small ASTs representing standard types.
 
   public static TypeDenoter
-    booleanType, charType, integerType, stringType, anyType, errorType;
+    booleanType, charType, integerType, stringType, anyType, errorType, codeType;
 
   public static TypeDeclaration
     booleanDecl, charDecl, integerDecl, stringDecl;
@@ -46,7 +46,7 @@ public final class StdEnvironment {
     equalDecl, unequalDecl, lessDecl, notlessDecl, greaterDecl, notgreaterDecl;
 
   public static ProcDeclaration
-    getDecl, putDecl, getintDecl, putintDecl, geteolDecl, puteolDecl;
+    getDecl, putDecl, getintDecl, putintDecl, geteolDecl, puteolDecl, spawnDecl;
 
   public static FuncDeclaration
     chrDecl, ordDecl, eolDecl, eofDecl;

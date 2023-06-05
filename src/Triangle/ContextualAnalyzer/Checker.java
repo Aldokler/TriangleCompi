@@ -966,6 +966,7 @@ public final class Checker implements Visitor {
     StdEnvironment.integerType = new IntTypeDenoter(dummyPos);
     StdEnvironment.charType = new CharTypeDenoter(dummyPos);
     StdEnvironment.stringType = new StringTypeDenoter(dummyPos);
+    StdEnvironment.codeType = new StringTypeDenoter(dummyPos);
     StdEnvironment.anyType = new AnyTypeDenoter(dummyPos);
     StdEnvironment.errorType = new ErrorTypeDenoter(dummyPos);
 
@@ -1008,6 +1009,8 @@ public final class Checker implements Visitor {
     StdEnvironment.puteolDecl = declareStdProc("puteol", new EmptyFormalParameterSequence(dummyPos));
     StdEnvironment.equalDecl = declareStdBinaryOp("=", StdEnvironment.anyType, StdEnvironment.anyType, StdEnvironment.booleanType);
     StdEnvironment.unequalDecl = declareStdBinaryOp("\\=", StdEnvironment.anyType, StdEnvironment.anyType, StdEnvironment.booleanType);
+    StdEnvironment.spawnDecl = declareStdProc("spawn", new SingleFormalParameterSequence(
+                                            new ConstFormalParameter(dummyI, StdEnvironment.codeType, dummyPos), dummyPos));
 
   }
 }
