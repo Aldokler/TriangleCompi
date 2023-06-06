@@ -27,6 +27,8 @@ public interface Visitor {
   public abstract Object visitWhileCommand(WhileCommand ast, Object o);
   public abstract Object visitRepeatCommand(RepeatCommand ast, Object o);
   public abstract Object visitForCommand(ForCommand ast, Object o);
+  
+  public abstract Object visitSpawnCommand(SpawnCommand ast, Object o);
 
 
   // Expressions
@@ -95,6 +97,7 @@ public interface Visitor {
   public abstract Object visitSimpleTypeDenoter(SimpleTypeDenoter ast, Object o);
   public abstract Object visitIntTypeDenoter(IntTypeDenoter ast, Object o);
   public abstract Object visitRecordTypeDenoter(RecordTypeDenoter ast, Object o);
+  public abstract Object visitCommandTypeDenoter(CommandTypeDenoter ast, Object o);
 
   public abstract Object visitMultipleFieldTypeDenoter(MultipleFieldTypeDenoter ast, Object o);
   public abstract Object visitSingleFieldTypeDenoter(SingleFieldTypeDenoter ast, Object o);

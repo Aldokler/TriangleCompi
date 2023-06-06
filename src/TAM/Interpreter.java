@@ -18,12 +18,19 @@ import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class Interpreter {
 
 
   static String objectName;
-
+  
+// Threads
+  static List<Thread> threads = new ArrayList();
+  static int threadCount = 1;
+  static boolean threading = false;
 
 // DATA STORE
 
@@ -38,7 +45,7 @@ public class Interpreter {
     HB = 1024;  // = upper bound of data array + 1
 
   static int
-    CT, CP, ST, HT, LB, status;
+    CT, CP, ST, HT, LB, status, originalCP;
 
   // status values
   final static int
@@ -428,10 +435,10 @@ public class Interpreter {
       case Machine.disposeDisplacement:
         ST = ST - 1; // no action taken at present
         break;
-      case Machine.spawnDisplacement:
+/*      case Machine.spawnDisplacement:
         ST = ST - 1; // no action taken at present
-        System.out.println("Haciendo las cosas por separado mi rey");
-        break;
+        System.out.println("Ha aparecido un Thread salvaje");
+        break;*/
     }
   }
 
@@ -446,7 +453,12 @@ public class Interpreter {
     HT = HB;
     LB = SB;
     CP = CB;
+    originalCP = CP;
     status = running;
+    
+    // Recurrent Things...
+    
+    
     do {
       // Fetch instruction ...
       currentInstr = Machine.code[CP];
@@ -574,6 +586,15 @@ public class Interpreter {
         case Machine.HALTop:
           status = halted;
           break;
+          //To Do
+        case Machine.startThread:
+            ST = ST - 1;
+            CP = CP + 1;
+            break;
+        case Machine.endThread:
+            ST = ST - 1;
+            CP = CP + 1;
+            break;
       }
       if ((CP < CB) || (CP >= CT))
         status = failedInvalidCodeAddress;
@@ -597,12 +618,24 @@ public class Interpreter {
       objectStream = new DataInputStream (objectFile);
 
       addr = Machine.CB;
+      threads.add(new Thread(addr));
       while (!finished) {
         Machine.code[addr] = Instruction.read(objectStream);
         if (Machine.code[addr] == null)
           finished = true;
-        else
+        else{
+            switch(Machine.code[addr].op){
+                case Machine.startThread:
+                    threads.add(new Thread(addr));
+                    break;
+                case Machine.endThread:
+                    threads.get(threadCount).end = addr;
+                    threads.get(threadCount).size = addr-threads.get(threadCount).start;
+                    threadCount++;
+                    break;
+            }
           addr = addr + 1;
+        }
       }
       CT = addr;
       objectFile.close();

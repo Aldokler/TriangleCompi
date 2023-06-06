@@ -36,6 +36,7 @@ import Triangle.AbstractSyntaxTrees.CaseCommand;
 import Triangle.AbstractSyntaxTrees.CharTypeDenoter;
 import Triangle.AbstractSyntaxTrees.CharacterExpression;
 import Triangle.AbstractSyntaxTrees.CharacterLiteral;
+import Triangle.AbstractSyntaxTrees.CommandTypeDenoter;
 import Triangle.AbstractSyntaxTrees.ConstActualParameter;
 import Triangle.AbstractSyntaxTrees.ConstDeclaration;
 import Triangle.AbstractSyntaxTrees.ConstFormalParameter;
@@ -82,6 +83,7 @@ import Triangle.AbstractSyntaxTrees.SingleFieldTypeDenoter;
 import Triangle.AbstractSyntaxTrees.SingleFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.SingleRecordAggregate;
 import Triangle.AbstractSyntaxTrees.SingleStringAggregate;
+import Triangle.AbstractSyntaxTrees.SpawnCommand;
 import Triangle.AbstractSyntaxTrees.StringExpression;
 import Triangle.AbstractSyntaxTrees.StringLiteral;
 import Triangle.AbstractSyntaxTrees.StringTypeDenoter;
@@ -223,6 +225,14 @@ public final class Encoder implements Visitor {
         ast.E2.visit(this, frame);
         emit(Machine.CALLop, Machine.SBr, Machine.PBr, Machine.leDisplacement);
         emit(Machine.JUMPIFop, Machine.trueRep, Machine.CBr, loopAddr);
+        return null;
+    }
+    
+    public Object visitSpawnCommand(SpawnCommand ast, Object o) {
+        Frame frame = (Frame) o;
+        emit(Machine.startThread, 0, Machine.CBr, 0);
+        ast.C.visit(this, frame);
+        emit(Machine.endThread, 0, Machine.CBr, 0);
         return null;
     }
 
@@ -545,9 +555,14 @@ public final class Encoder implements Visitor {
                     address.level), address.displacement);
         } else if (ast.I.decl.entity instanceof PrimitiveRoutine) {
             int displacement = ((PrimitiveRoutine) ast.I.decl.entity).displacement;
+                System.out.println(ast.I.spelling);
             // static link, code address
-            emit(Machine.LOADAop, 0, Machine.SBr, 0);
-            emit(Machine.LOADAop, 0, Machine.PBr, displacement);
+            if (ast.I.spelling.equals("spawn")){
+                System.out.println(ast.I.spelling);
+            } else {
+                emit(Machine.LOADAop, 0, Machine.SBr, 0);
+                emit(Machine.LOADAop, 0, Machine.PBr, displacement);
+            }
         }
         return new Integer(Machine.closureSize);
     }
@@ -565,9 +580,14 @@ public final class Encoder implements Visitor {
                     address.level), address.displacement);
         } else if (ast.I.decl.entity instanceof PrimitiveRoutine) {
             int displacement = ((PrimitiveRoutine) ast.I.decl.entity).displacement;
+                System.out.println(ast.I.spelling);
             // static link, code address
-            emit(Machine.LOADAop, 0, Machine.SBr, 0);
-            emit(Machine.LOADAop, 0, Machine.PBr, displacement);
+            if (ast.I.spelling.equals("spawn")){
+                System.out.println(ast.I.spelling);
+            } else {
+                emit(Machine.LOADAop, 0, Machine.SBr, 0);
+                emit(Machine.LOADAop, 0, Machine.PBr, displacement);
+            }
         }
         return new Integer(Machine.closureSize);
     }
@@ -593,6 +613,7 @@ public final class Encoder implements Visitor {
 
     public Object visitSingleActualParameterSequence(
             SingleActualParameterSequence ast, Object o) {
+        System.out.println(ast.AP);
         return ast.AP.visit(this, o);
     }
 
@@ -615,6 +636,15 @@ public final class Encoder implements Visitor {
     }
 
     public Object visitStringTypeDenoter(StringTypeDenoter ast, Object o) {
+        if (ast.entity == null) {
+            ast.entity = new TypeRepresentation(Machine.characterSize);
+            writeTableDetails(ast);
+        }
+        return new Integer(Machine.characterSize);
+    }
+    
+    //To Do
+    public Object visitCommandTypeDenoter(CommandTypeDenoter ast, Object o) {
         if (ast.entity == null) {
             ast.entity = new TypeRepresentation(Machine.characterSize);
             writeTableDetails(ast);
@@ -724,7 +754,11 @@ public final class Encoder implements Visitor {
         } else if (ast.decl.entity instanceof PrimitiveRoutine) {
             int displacement = ((PrimitiveRoutine) ast.decl.entity).displacement;
             if (displacement != Machine.idDisplacement) {
-                emit(Machine.CALLop, Machine.SBr, Machine.PBr, displacement);
+                if (ast.spelling.equals("spawn")){
+                    System.out.println("tuturu");
+                } else {
+                    emit(Machine.CALLop, Machine.SBr, Machine.PBr, displacement);
+                }
             }
         } else if (ast.decl.entity instanceof EqualityRoutine) { // "=" or "\="
             int displacement = ((EqualityRoutine) ast.decl.entity).displacement;
@@ -752,7 +786,11 @@ public final class Encoder implements Visitor {
         } else if (ast.decl.entity instanceof PrimitiveRoutine) {
             int displacement = ((PrimitiveRoutine) ast.decl.entity).displacement;
             if (displacement != Machine.idDisplacement) {
-                emit(Machine.CALLop, Machine.SBr, Machine.PBr, displacement);
+                if (ast.spelling.equals("spawn")){
+                    System.out.println("3");
+                } else {
+                    emit(Machine.CALLop, Machine.SBr, Machine.PBr, displacement);
+                }
             }
         } else if (ast.decl.entity instanceof EqualityRoutine) { // "=" or "\="
             int displacement = ((EqualityRoutine) ast.decl.entity).displacement;
@@ -891,7 +929,7 @@ public final class Encoder implements Visitor {
         elaborateStdPrimRoutine(StdEnvironment.putintDecl, Machine.putintDisplacement);
         elaborateStdPrimRoutine(StdEnvironment.geteolDecl, Machine.geteolDisplacement);
         elaborateStdPrimRoutine(StdEnvironment.puteolDecl, Machine.puteolDisplacement);
-        elaborateStdPrimRoutine(StdEnvironment.spawnDecl, Machine.spawnDisplacement);
+        //elaborateStdPrimRoutine(StdEnvironment.spawnDecl, Machine.spawnDisplacement);
         elaborateStdEqRoutine(StdEnvironment.equalDecl, Machine.eqDisplacement);
         elaborateStdEqRoutine(StdEnvironment.unequalDecl, Machine.neDisplacement);
     }

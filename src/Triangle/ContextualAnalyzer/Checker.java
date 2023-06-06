@@ -29,6 +29,7 @@ import Triangle.AbstractSyntaxTrees.CaseCommand;
 import Triangle.AbstractSyntaxTrees.CharTypeDenoter;
 import Triangle.AbstractSyntaxTrees.CharacterExpression;
 import Triangle.AbstractSyntaxTrees.CharacterLiteral;
+import Triangle.AbstractSyntaxTrees.CommandTypeDenoter;
 import Triangle.AbstractSyntaxTrees.ConstActualParameter;
 import Triangle.AbstractSyntaxTrees.ConstDeclaration;
 import Triangle.AbstractSyntaxTrees.ConstFormalParameter;
@@ -78,6 +79,7 @@ import Triangle.AbstractSyntaxTrees.SingleFieldTypeDenoter;
 import Triangle.AbstractSyntaxTrees.SingleFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.SingleRecordAggregate;
 import Triangle.AbstractSyntaxTrees.SingleStringAggregate;
+import Triangle.AbstractSyntaxTrees.SpawnCommand;
 import Triangle.AbstractSyntaxTrees.StringExpression;
 import Triangle.AbstractSyntaxTrees.StringLiteral;
 import Triangle.AbstractSyntaxTrees.StringTypeDenoter;
@@ -192,6 +194,11 @@ public final class Checker implements Visitor {
     TypeDenoter e2Type = (TypeDenoter) ast.E2.visit(this, null);
     if (! e2Type.equals(StdEnvironment.integerType))
       reporter.reportError("Integer expected here", "", ast.E2.position);
+    ast.C.visit(this, null);
+    return null;
+  }
+
+  public Object visitSpawnCommand(SpawnCommand ast, Object o) {
     ast.C.visit(this, null);
     return null;
   }
@@ -657,6 +664,10 @@ public final class Checker implements Visitor {
     return StdEnvironment.stringType;
   }
 
+  public Object visitCommandTypeDenoter(CommandTypeDenoter ast, Object o) {
+    return StdEnvironment.commandType;
+  }
+
   public Object visitBoolTypeDenoter(BoolTypeDenoter ast, Object o) {
     return StdEnvironment.booleanType;
   }
@@ -966,7 +977,7 @@ public final class Checker implements Visitor {
     StdEnvironment.integerType = new IntTypeDenoter(dummyPos);
     StdEnvironment.charType = new CharTypeDenoter(dummyPos);
     StdEnvironment.stringType = new StringTypeDenoter(dummyPos);
-    StdEnvironment.codeType = new StringTypeDenoter(dummyPos);
+    StdEnvironment.commandType = new CommandTypeDenoter(dummyPos);
     StdEnvironment.anyType = new AnyTypeDenoter(dummyPos);
     StdEnvironment.errorType = new ErrorTypeDenoter(dummyPos);
 
@@ -1009,8 +1020,8 @@ public final class Checker implements Visitor {
     StdEnvironment.puteolDecl = declareStdProc("puteol", new EmptyFormalParameterSequence(dummyPos));
     StdEnvironment.equalDecl = declareStdBinaryOp("=", StdEnvironment.anyType, StdEnvironment.anyType, StdEnvironment.booleanType);
     StdEnvironment.unequalDecl = declareStdBinaryOp("\\=", StdEnvironment.anyType, StdEnvironment.anyType, StdEnvironment.booleanType);
-    StdEnvironment.spawnDecl = declareStdProc("spawn", new SingleFormalParameterSequence(
-                                            new ConstFormalParameter(dummyI, StdEnvironment.codeType, dummyPos), dummyPos));
+    //StdEnvironment.spawnDecl = declareStdProc("spawn", new SingleFormalParameterSequence(
+    //                                        new ConstFormalParameter(dummyI, StdEnvironment.commandType, dummyPos), dummyPos));
 
   }
 }

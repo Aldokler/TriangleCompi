@@ -31,6 +31,7 @@ import Triangle.AbstractSyntaxTrees.CharTypeDenoter;
 import Triangle.AbstractSyntaxTrees.CharacterExpression;
 import Triangle.AbstractSyntaxTrees.CharacterLiteral;
 import Triangle.AbstractSyntaxTrees.Command;
+import Triangle.AbstractSyntaxTrees.CommandTypeDenoter;
 import Triangle.AbstractSyntaxTrees.ConstActualParameter;
 import Triangle.AbstractSyntaxTrees.ConstDeclaration;
 import Triangle.AbstractSyntaxTrees.ConstFormalParameter;
@@ -76,6 +77,7 @@ import Triangle.AbstractSyntaxTrees.SingleFieldTypeDenoter;
 import Triangle.AbstractSyntaxTrees.SingleFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.SingleRecordAggregate;
 import Triangle.AbstractSyntaxTrees.SingleStringAggregate;
+import Triangle.AbstractSyntaxTrees.SpawnCommand;
 import Triangle.AbstractSyntaxTrees.StringExpression;
 import Triangle.AbstractSyntaxTrees.StringLiteral;
 import Triangle.AbstractSyntaxTrees.StringTypeDenoter;
@@ -142,6 +144,10 @@ public class LayoutVisitor implements Visitor {
   
   public Object visitForCommand(ForCommand ast, Object obj) {
     return layoutQuaternary("ForCom.", ast.I, ast.E1, ast.E2, ast.C);
+  }
+
+  public Object visitSpawnCommand(SpawnCommand ast, Object obj) {
+    return layoutUnary("SpawnCom.",ast.C);
   }
 
 
@@ -332,6 +338,10 @@ public class LayoutVisitor implements Visitor {
 
   public Object visitStringTypeDenoter(StringTypeDenoter ast, Object obj) {
     return layoutNullary("String");
+  }
+
+  public Object visitCommandTypeDenoter(CommandTypeDenoter ast, Object obj) {
+    return layoutNullary("Command");
   }
 
   public Object visitBoolTypeDenoter(BoolTypeDenoter ast, Object obj) {

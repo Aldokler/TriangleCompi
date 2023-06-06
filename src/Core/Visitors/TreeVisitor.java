@@ -19,6 +19,7 @@ import Triangle.AbstractSyntaxTrees.CharTypeDenoter;
 import Triangle.AbstractSyntaxTrees.CharacterExpression;
 import Triangle.AbstractSyntaxTrees.CharacterLiteral;
 import Triangle.AbstractSyntaxTrees.Command;
+import Triangle.AbstractSyntaxTrees.CommandTypeDenoter;
 import Triangle.AbstractSyntaxTrees.ConstActualParameter;
 import Triangle.AbstractSyntaxTrees.ConstDeclaration;
 import Triangle.AbstractSyntaxTrees.ConstFormalParameter;
@@ -64,6 +65,7 @@ import Triangle.AbstractSyntaxTrees.SingleFieldTypeDenoter;
 import Triangle.AbstractSyntaxTrees.SingleFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.SingleRecordAggregate;
 import Triangle.AbstractSyntaxTrees.SingleStringAggregate;
+import Triangle.AbstractSyntaxTrees.SpawnCommand;
 import Triangle.AbstractSyntaxTrees.StringExpression;
 import Triangle.AbstractSyntaxTrees.StringLiteral;
 import Triangle.AbstractSyntaxTrees.StringTypeDenoter;
@@ -136,6 +138,10 @@ public class TreeVisitor implements Visitor {
     
     public Object visitForCommand(ForCommand ast, Object obj) {
         return(createQuaternary("For Command", ast.I, ast.E1, ast.E2, ast.C));
+    }
+    
+    public Object visitSpawnCommand(SpawnCommand ast, Object obj) {
+        return(createUnary("Spawn Command", ast.C));
     }
     // </editor-fold>
     
@@ -318,6 +324,10 @@ public class TreeVisitor implements Visitor {
     // Type Denoters
     public Object visitAnyTypeDenoter(AnyTypeDenoter ast, Object obj) {
         return(createNullary("any"));
+    }
+    
+    public Object visitCommandTypeDenoter(CommandTypeDenoter ast, Object obj) {
+        return(createNullary("Command"));
     }
     
     public Object visitArrayTypeDenoter(ArrayTypeDenoter ast, Object obj) {

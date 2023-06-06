@@ -76,6 +76,7 @@ import Triangle.AbstractSyntaxTrees.SingleFieldTypeDenoter;
 import Triangle.AbstractSyntaxTrees.SingleFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.SingleRecordAggregate;
 import Triangle.AbstractSyntaxTrees.SingleStringAggregate;
+import Triangle.AbstractSyntaxTrees.SpawnCommand;
 import Triangle.AbstractSyntaxTrees.StringAggregate;
 import Triangle.AbstractSyntaxTrees.StringExpression;
 import Triangle.AbstractSyntaxTrees.StringLiteral;
@@ -365,7 +366,6 @@ public class Parser {
       {
         acceptIt();
         Expression eAST = parseExpression();
-          System.out.println(eAST.toString());
         accept(Token.OF);
         HashMap <IntegerLiteral, Command> map = new HashMap<IntegerLiteral, Command>();
         while(currentToken.kind != Token.ELSE){
@@ -410,6 +410,16 @@ public class Parser {
         commandAST = new ForCommand(iAST, e1AST, e2AST, cAST, commandPos);
       }
       break;
+      
+    case Token.SPAWN:{
+        acceptIt();
+        accept(Token.LPAREN);
+        Command cAST = parseCommand();
+        accept(Token.RPAREN);
+        finish(commandPos);
+        commandAST = new SpawnCommand(cAST, commandPos);
+    }
+    break;
 
     case Token.SEMICOLON:
     case Token.END:

@@ -222,10 +222,9 @@ public class Disassembler {
       case Machine.disposeDisplacement:
 	System.out.print ("dispose ");
 	break;
-      case Machine.spawnDisplacement:
+/*      case Machine.spawnDisplacement:
 	System.out.print ("spawn   ");
-          System.out.println("Osea como, esta vaina termina en el TAM?");
-	break;
+	break;*/
     }
   }
 
@@ -328,6 +327,15 @@ public class Disassembler {
 
       case Machine.HALTop:
         System.out.print ("HALT  ");
+        break;
+        
+      case Machine.startThread:
+          System.out.print("startThread  ");
+          break;
+      
+      case Machine.endThread:
+          System.out.print("endThread  ");
+          break;
     }
   }
 

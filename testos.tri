@@ -1,10 +1,8 @@
 let
-    var zx : String
+	var a: String
 in
 begin
-
-    zx := "Hola mundo";
-    spawn(zx);
-	if true then put('d') else put('x')
+	put('D');
+	spawn(put('X'));
 
 end

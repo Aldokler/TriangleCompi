@@ -18,6 +18,7 @@ import Triangle.AbstractSyntaxTrees.CaseCommand;
 import Triangle.AbstractSyntaxTrees.CharTypeDenoter;
 import Triangle.AbstractSyntaxTrees.CharacterExpression;
 import Triangle.AbstractSyntaxTrees.CharacterLiteral;
+import Triangle.AbstractSyntaxTrees.CommandTypeDenoter;
 import Triangle.AbstractSyntaxTrees.ConstActualParameter;
 import Triangle.AbstractSyntaxTrees.ConstDeclaration;
 import Triangle.AbstractSyntaxTrees.ConstFormalParameter;
@@ -63,6 +64,7 @@ import Triangle.AbstractSyntaxTrees.SingleFieldTypeDenoter;
 import Triangle.AbstractSyntaxTrees.SingleFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.SingleRecordAggregate;
 import Triangle.AbstractSyntaxTrees.SingleStringAggregate;
+import Triangle.AbstractSyntaxTrees.SpawnCommand;
 import Triangle.AbstractSyntaxTrees.StringExpression;
 import Triangle.AbstractSyntaxTrees.StringLiteral;
 import Triangle.AbstractSyntaxTrees.StringTypeDenoter;
@@ -170,6 +172,12 @@ public class TableVisitor implements Visitor {
       ast.I.visit(this, null);
       ast.E1.visit(this, null);
       ast.E2.visit(this, null);
+      ast.C.visit(this, null);
+      
+      return(null);
+  }
+  
+  public Object visitSpawnCommand(SpawnCommand ast, Object o) { 
       ast.C.visit(this, null);
       
       return(null);
@@ -555,6 +563,10 @@ public class TableVisitor implements Visitor {
   }
   
   public Object visitIntTypeDenoter(IntTypeDenoter ast, Object o) { 
+      return(null);
+  }
+  
+  public Object visitCommandTypeDenoter(CommandTypeDenoter ast, Object o) { 
       return(null);
   }
   
