@@ -3,10 +3,16 @@ let
 in
 begin
 	spawn(
-		put('X');
-		put('D')
+		put('H');
+		put('l');
+		put(' ');
+		put('u');
+		put('d')
 	);
-	put(':');
-	put('v');
+	put('o');
+	put('a');
+	put('m');
+	put('n');
+	put('o');
 
 end

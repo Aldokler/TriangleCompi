@@ -36,7 +36,7 @@ public class Interpreter {
     final static int CB = 0,
             SB = 0;  // = upper bound of data array + 1
 
-    static int CT, CP, ST, HT, LB, status, originalCP, HB;
+    static int CT, CP, ST, HT, LB, status, originalCP, HB, actualThread;
 
     // status values
     final static int running = 0, halted = 1, failedDataStoreFull = 2, failedInvalidCodeAddress = 3,
@@ -451,6 +451,7 @@ public class Interpreter {
         originalCP = CP;
         status = running;
         boolean runThread = false;
+        actualThread = 0;
 
         do {
             // Recurrent Things...
@@ -460,6 +461,7 @@ public class Interpreter {
                 for (Thread hilo : threads) {
                     if (hilo.active && hilo.run) {
                         runThread = true;
+                        actualThread = hilo.id;
                         CP = hilo.CP;
                         break;
                     }
@@ -467,6 +469,7 @@ public class Interpreter {
                     for (Thread hilo : threads){
                         hilo.run = true;
                     }
+                    actualThread = 0;
                     CP = originalCP;
                 }
             }
@@ -605,12 +608,12 @@ public class Interpreter {
                 case Machine.HALTop:
                     status = halted;
                     break;
-                //To Do
                 case Machine.startThread:
-                    ST = ST - 1;
                     for (Thread hilo : threads) {
                         if (hilo.start == CP) {
                             hilo.active = true;
+                            originalCP = hilo.end+1;
+                            actualThread = hilo.id;
                             break;
                         }
                     }
@@ -620,10 +623,10 @@ public class Interpreter {
                     CP = CP + 1;
                     break;
                 case Machine.endThread:
-                    ST = ST - 1;
                     for (Thread hilo : threads) {
                         if (hilo.end == CP) {
                             hilo.active = false;
+                            actualThread = 0;
                             break;
                         }
                     }
@@ -634,7 +637,7 @@ public class Interpreter {
                             threading = false;
                         }
                     }
-                    CP = CP + 1;
+                    CP = originalCP;
                     break;
             }
             if ((CP < CB) || (CP >= CT)) {
@@ -643,10 +646,11 @@ public class Interpreter {
             if (threading) {
                 runThread = false;
                 for (Thread hilo : threads) {
-                    if (hilo.active && hilo.run) {
+                    if (hilo.id == actualThread && hilo.active && hilo.run) {
                         runThread = true;
                         hilo.run = false;
                         hilo.CP = CP;
+                        actualThread = 0;
                         break;
                     }
                 } if(!runThread){
@@ -672,6 +676,7 @@ public class Interpreter {
 
             addr = Machine.CB;
             int threadStart = 0;
+            int threadCount = 1;
             while (!finished) {
                 Machine.code[addr] = Instruction.read(objectStream);
                 if (Machine.code[addr] == null) {
@@ -682,7 +687,8 @@ public class Interpreter {
                             threadStart = addr;
                             break;
                         case Machine.endThread:
-                            threads.add(new Thread(threadStart, addr));
+                            threads.add(new Thread(threadStart, addr, threadCount));
+                            threadCount++;
                             break;
                     }
                     addr = addr + 1;

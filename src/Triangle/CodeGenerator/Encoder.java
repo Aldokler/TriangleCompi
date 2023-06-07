@@ -555,14 +555,9 @@ public final class Encoder implements Visitor {
                     address.level), address.displacement);
         } else if (ast.I.decl.entity instanceof PrimitiveRoutine) {
             int displacement = ((PrimitiveRoutine) ast.I.decl.entity).displacement;
-                System.out.println(ast.I.spelling);
             // static link, code address
-            if (ast.I.spelling.equals("spawn")){
-                System.out.println(ast.I.spelling);
-            } else {
-                emit(Machine.LOADAop, 0, Machine.SBr, 0);
-                emit(Machine.LOADAop, 0, Machine.PBr, displacement);
-            }
+            emit(Machine.LOADAop, 0, Machine.SBr, 0);
+            emit(Machine.LOADAop, 0, Machine.PBr, displacement);
         }
         return new Integer(Machine.closureSize);
     }
@@ -580,14 +575,9 @@ public final class Encoder implements Visitor {
                     address.level), address.displacement);
         } else if (ast.I.decl.entity instanceof PrimitiveRoutine) {
             int displacement = ((PrimitiveRoutine) ast.I.decl.entity).displacement;
-                System.out.println(ast.I.spelling);
             // static link, code address
-            if (ast.I.spelling.equals("spawn")){
-                System.out.println(ast.I.spelling);
-            } else {
-                emit(Machine.LOADAop, 0, Machine.SBr, 0);
-                emit(Machine.LOADAop, 0, Machine.PBr, displacement);
-            }
+            emit(Machine.LOADAop, 0, Machine.SBr, 0);
+            emit(Machine.LOADAop, 0, Machine.PBr, displacement);
         }
         return new Integer(Machine.closureSize);
     }
@@ -613,7 +603,6 @@ public final class Encoder implements Visitor {
 
     public Object visitSingleActualParameterSequence(
             SingleActualParameterSequence ast, Object o) {
-        System.out.println(ast.AP);
         return ast.AP.visit(this, o);
     }
 
@@ -754,11 +743,7 @@ public final class Encoder implements Visitor {
         } else if (ast.decl.entity instanceof PrimitiveRoutine) {
             int displacement = ((PrimitiveRoutine) ast.decl.entity).displacement;
             if (displacement != Machine.idDisplacement) {
-                if (ast.spelling.equals("spawn")){
-                    System.out.println("tuturu");
-                } else {
-                    emit(Machine.CALLop, Machine.SBr, Machine.PBr, displacement);
-                }
+                emit(Machine.CALLop, Machine.SBr, Machine.PBr, displacement);
             }
         } else if (ast.decl.entity instanceof EqualityRoutine) { // "=" or "\="
             int displacement = ((EqualityRoutine) ast.decl.entity).displacement;
@@ -786,11 +771,7 @@ public final class Encoder implements Visitor {
         } else if (ast.decl.entity instanceof PrimitiveRoutine) {
             int displacement = ((PrimitiveRoutine) ast.decl.entity).displacement;
             if (displacement != Machine.idDisplacement) {
-                if (ast.spelling.equals("spawn")){
-                    System.out.println("3");
-                } else {
-                    emit(Machine.CALLop, Machine.SBr, Machine.PBr, displacement);
-                }
+                emit(Machine.CALLop, Machine.SBr, Machine.PBr, displacement);
             }
         } else if (ast.decl.entity instanceof EqualityRoutine) { // "=" or "\="
             int displacement = ((EqualityRoutine) ast.decl.entity).displacement;
