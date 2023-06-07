@@ -2,7 +2,11 @@ let
 	var a: String
 in
 begin
-	put('D');
-	spawn(put('X'));
+	spawn(
+		put('X');
+		put('D')
+	);
+	put(':');
+	put('v');
 
 end
