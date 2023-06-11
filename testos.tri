@@ -1,18 +1,19 @@
 let
-	var a: String
+	proc printHolaMundo()~
+		begin
+			put('o');
+			put('a');
+			put('m');
+			put('n');
+			put('o');
+		end
 in
 begin
-	spawn(
-		put('H');
-		put('l');
-		put(' ');
-		put('u');
-		put('d')
-	);
-	put('o');
-	put('a');
-	put('m');
-	put('n');
-	put('o');
+	spawn(printHolaMundo());
+	put('H');
+	put('l');
+	put(' ');
+	put('u');
+	put('d');
 
 end

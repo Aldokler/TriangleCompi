@@ -27,6 +27,7 @@ public class Interpreter {
 
 // Threads
     static List<Thread> threads = new ArrayList();
+    static List<Integer> dataPointers = new ArrayList();
     static boolean threading = false;
 
 // DATA STORE
@@ -448,6 +449,7 @@ public class Interpreter {
         HT = HB;
         LB = SB;
         CP = CB;
+        dataPointers.set(0, ST);
         originalCP = CP;
         status = running;
         boolean runThread = false;
@@ -463,6 +465,7 @@ public class Interpreter {
                         runThread = true;
                         actualThread = hilo.id;
                         CP = hilo.CP;
+                        ST = dataPointers.get(hilo.id);
                         break;
                     }
                 } if(!runThread){
@@ -471,7 +474,10 @@ public class Interpreter {
                     }
                     actualThread = 0;
                     CP = originalCP;
+                    ST = dataPointers.get(0);
                 }
+            } else {
+                ST = dataPointers.get(0);
             }
 
             // Fetch instruction ...
@@ -606,7 +612,9 @@ public class Interpreter {
                     }
                     break;
                 case Machine.HALTop:
-                    status = halted;
+                    if (!threading){
+                        status = halted;
+                    }
                     break;
                 case Machine.startThread:
                     for (Thread hilo : threads) {
@@ -614,6 +622,7 @@ public class Interpreter {
                             hilo.active = true;
                             originalCP = hilo.end+1;
                             actualThread = hilo.id;
+                            ST = dataPointers.get(hilo.id);
                             break;
                         }
                     }
@@ -635,6 +644,8 @@ public class Interpreter {
                             break;
                         } else {
                             threading = false;
+                            ST = dataPointers.get(0);
+                            break;
                         }
                     }
                     CP = originalCP;
@@ -650,12 +661,16 @@ public class Interpreter {
                         runThread = true;
                         hilo.run = false;
                         hilo.CP = CP;
+                        dataPointers.set(hilo.id, ST);
                         actualThread = 0;
                         break;
                     }
                 } if(!runThread){
+                    dataPointers.set(0, ST);
                     originalCP = CP;
                 }
+            } else {
+                dataPointers.set(0, ST);
             }
         } while (status == running);
     }
@@ -677,6 +692,7 @@ public class Interpreter {
             addr = Machine.CB;
             int threadStart = 0;
             int threadCount = 1;
+            dataPointers.add(SB);
             while (!finished) {
                 Machine.code[addr] = Instruction.read(objectStream);
                 if (Machine.code[addr] == null) {
@@ -688,6 +704,7 @@ public class Interpreter {
                             break;
                         case Machine.endThread:
                             threads.add(new Thread(threadStart, addr, threadCount));
+                            dataPointers.add(1024 * threadCount);
                             threadCount++;
                             break;
                     }
