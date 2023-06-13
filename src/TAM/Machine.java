@@ -52,7 +52,9 @@ public final class Machine {
     JUMPIFop = 14,
     HALTop = 15,
     startThread = 16,
-    endThread = 17;
+    endThread = 17,
+    startAtomic = 18,
+    endAtomic = 19;
 
 
 

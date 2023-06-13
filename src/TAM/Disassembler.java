@@ -336,6 +336,14 @@ public class Disassembler {
       case Machine.endThread:
           System.out.print("endThread  ");
           break;
+          
+      case Machine.startAtomic:
+          System.out.print("startAtomic  ");
+          break;
+          
+      case Machine.endAtomic:
+          System.out.print("endAtomic");
+          break;
     }
   }
 

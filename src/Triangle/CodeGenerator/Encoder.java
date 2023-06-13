@@ -27,6 +27,7 @@ import Triangle.AbstractSyntaxTrees.AnyTypeDenoter;
 import Triangle.AbstractSyntaxTrees.ArrayExpression;
 import Triangle.AbstractSyntaxTrees.ArrayTypeDenoter;
 import Triangle.AbstractSyntaxTrees.AssignCommand;
+import Triangle.AbstractSyntaxTrees.AtomicInstruction;
 import Triangle.AbstractSyntaxTrees.BinaryExpression;
 import Triangle.AbstractSyntaxTrees.BinaryOperatorDeclaration;
 import Triangle.AbstractSyntaxTrees.BoolTypeDenoter;
@@ -335,6 +336,14 @@ public final class Encoder implements Visitor {
         Integer valSize = (Integer) ast.type.visit(this, null);
         encodeFetch(ast.V, frame, valSize.intValue());
         return valSize;
+    }
+    
+    public Object visitAtomicInstruction(AtomicInstruction ast, Object o) {
+        Frame frame = (Frame) o;
+        emit(Machine.startAtomic, 0, Machine.CBr, 0);
+        ast.C.visit(this, frame);
+        emit(Machine.endAtomic, 0, Machine.CBr, 0);
+        return null;
     }
 
     // Declarations

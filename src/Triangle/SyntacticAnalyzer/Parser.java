@@ -21,6 +21,7 @@ import Triangle.AbstractSyntaxTrees.ArrayAggregate;
 import Triangle.AbstractSyntaxTrees.ArrayExpression;
 import Triangle.AbstractSyntaxTrees.ArrayTypeDenoter;
 import Triangle.AbstractSyntaxTrees.AssignCommand;
+import Triangle.AbstractSyntaxTrees.AtomicInstruction;
 import Triangle.AbstractSyntaxTrees.BinaryExpression;
 import Triangle.AbstractSyntaxTrees.CallCommand;
 import Triangle.AbstractSyntaxTrees.CallExpression;
@@ -418,6 +419,17 @@ public class Parser {
         accept(Token.RPAREN);
         finish(commandPos);
         commandAST = new SpawnCommand(cAST, commandPos);
+    }
+    break;
+      
+    case Token.ATOMIC:
+    {
+        acceptIt();
+        accept(Token.LPAREN);
+        Command cAST = parseCommand();
+        accept(Token.RPAREN);
+        finish(commandPos);
+        commandAST = new AtomicInstruction(cAST, commandPos);
     }
     break;
 

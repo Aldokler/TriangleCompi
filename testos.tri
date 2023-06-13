@@ -1,8 +1,10 @@
 let
+	var holita: Char;
 	proc printHolaMundo()~
 		begin
 			put('o');
 			put('a');
+			atomic(put('b');put('e');put('l');put('l');put('o');put(' '));
 			put('m');
 			put('n');
 			put('o');
@@ -13,7 +15,13 @@ begin
 	put('H');
 	put('l');
 	put(' ');
+	atomic(put('y');put(' ');put('c');put('r');put('u');put('e');put('l');put(' '));
 	put('u');
 	put('d');
+	put(' ');
+	put('Y');
+	put('E');
+	put('S');
+
 
 end
