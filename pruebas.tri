@@ -1,0 +1,28 @@
+let 
+
+var n: Integer;
+var n1: Integer;
+var n2: Integer;
+var n3: Integer;
+var n4: Integer;
+proc hilo1()~ begin
+	n := 10000;
+end;
+proc hilo2()~ begin
+	n := 10000;
+end;
+proc hilo3()~ begin
+	n := 10000;
+end
+	
+
+in
+begin
+
+put('a');
+spawn(n := 3);
+spawn(n := 3);
+spawn(n := 3);
+n := 3;
+
+end
