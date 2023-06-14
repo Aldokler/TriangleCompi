@@ -245,8 +245,10 @@ public final class Encoder implements Visitor {
     
     public Object visitStringExpression(StringExpression ast, Object o) {
         Frame frame = (Frame) o;
-        Integer valSize = (Integer) ast.type.visit(this, null);
-        emit(Machine.LOADLop, 0, 0, ast.SA.spelling.charAt(1));
+        for(int i =0;i<ast.SA.spelling.length();i++){
+             emit(Machine.LOADLop, 0, 0, ast.SA.spelling.charAt(i));
+        }
+       Integer valSize = (Integer) ast.type.visit(this, null);
         return valSize;
     }
 
@@ -922,6 +924,7 @@ public final class Encoder implements Visitor {
         //elaborateStdPrimRoutine(StdEnvironment.spawnDecl, Machine.spawnDisplacement);
         elaborateStdEqRoutine(StdEnvironment.equalDecl, Machine.eqDisplacement);
         elaborateStdEqRoutine(StdEnvironment.unequalDecl, Machine.neDisplacement);
+        elaborateStdPrimRoutine(StdEnvironment.putstringDecl, Machine.putstringDisplacement);
     }
 
     // Saves the object program in the named file.
