@@ -1,28 +1,47 @@
 let 
-
 var n: Integer;
 var n1: Integer;
 var n2: Integer;
 var n3: Integer;
 var n4: Integer;
 proc hilo1()~ begin
-	n := 10000;
+	while n1 <= 10 do
+begin
+	putint(n1);
+	n1 := n1 + 1;
+end
 end;
 proc hilo2()~ begin
-	n := 10000;
+	while n2 <= 10 do
+begin
+	putint(n2);
+	n2 := n2 + 1;
+end
 end;
 proc hilo3()~ begin
-	n := 10000;
+	while n3 <= 10 do
+begin
+	putint(n3);
+	n3 := n3 + 1;
 end
-	
+end;
+proc hilo4()~ begin
+	while n4 <= 10 do
+begin
+	putint(n4);
+	n4 := n4 + 1;
+end
+end
 
 in
 begin
-
-put('a');
-spawn(n := 3);
-spawn(n := 3);
-spawn(n := 3);
-n := 3;
-
+n := 0;
+n1:= 0;
+n2:= 0;
+n3:= 0;
+n4:= 0;
+spawn(hilo1());
+spawn(hilo2());
+spawn(hilo3());
+hilo4()
 end

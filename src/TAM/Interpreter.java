@@ -713,6 +713,7 @@ public class Interpreter {
                     originalCP = CP;
                 }
             }
+            System.out.println("ST: " + ST);
         } while (status == running);
     }
 
