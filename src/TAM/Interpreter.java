@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Interpreter {
 
@@ -292,6 +294,7 @@ public class Interpreter {
 
         int addr, size;
         char ch;
+        String str = "";
 
         switch (primitiveDisplacement) {
             case Machine.idDisplacement:
@@ -432,6 +435,22 @@ public class Interpreter {
             case Machine.disposeDisplacement:
                 ST = ST - 1; // no action taken at present
                 break;
+            case Machine.putstringDisplacement:
+            {   
+                ST = ST -1;
+                int[] copia = data;
+                for(int i =0;i<copia.length;i++){
+                    if(copia[i]!=0)
+                        str+= (char)copia[i];  
+                }
+                System.out.println(str);
+                break;
+            }
+            /*      case Machine.spawnDisplacement:
+        ST = ST - 1; // no action taken at present
+        System.out.println("Ha aparecido un Thread salvaje");
+        break;*/
+
             /*      case Machine.spawnDisplacement:
         ST = ST - 1; // no action taken at present
         System.out.println("Ha aparecido un Thread salvaje");

@@ -222,6 +222,9 @@ public class Disassembler {
       case Machine.disposeDisplacement:
 	System.out.print ("dispose ");
 	break;
+       case Machine.putstringDisplacement:
+	System.out.print ("putstring  ");
+	break;
 /*      case Machine.spawnDisplacement:
 	System.out.print ("spawn   ");
 	break;*/
