@@ -476,6 +476,8 @@ public class Interpreter {
         boolean runThread = false;
         boolean wait = false;
         actualThread = 0;
+        
+        int x1 = 0;
 
         do {
             // Recurrent Things...
@@ -500,6 +502,10 @@ public class Interpreter {
                     ST = dataPointers.get(0);
                     LB = localPointers.get(0);
                 }
+            } else if (!threading && !wait){
+                CP = originalCP;
+                ST = dataPointers.get(0);
+                LB = localPointers.get(0);
             }
 
             // Fetch instruction ...
@@ -639,6 +645,7 @@ public class Interpreter {
                     }
                     break;
                 case Machine.startThread:
+                    //System.out.println("Alguito?: " + CP);
                     for (Thread hilo : threads) {
                         if (hilo.start == CP) {
                             hilo.active = true;
@@ -664,6 +671,7 @@ public class Interpreter {
                     CP = CP + 1;
                     break;
                 case Machine.endThread:
+                    //System.out.println("The end?: " + originalCP);
                     for (Thread hilo : threads) {
                         if (hilo.end == CP) {
                             hilo.active = false;
@@ -682,6 +690,7 @@ public class Interpreter {
                         }
                     }
                     CP = originalCP;
+                    
                     break;
                 case Machine.startAtomic:
                     CP = CP + 1;
@@ -712,8 +721,18 @@ public class Interpreter {
                     localPointers.set(0, LB);
                     originalCP = CP;
                 }
+            } else if (!threading && !wait){
+                dataPointers.set(0, ST);
+                localPointers.set(0, LB);
+                originalCP = CP;
             }
-            System.out.println("ST: " + ST);
+            /*
+            System.out.println("CP: " + CP + " → " + originalCP);
+            x1 += 1;
+            if (x1 >= 500){
+                status = halted;
+            }
+            */
         } while (status == running);
     }
 
