@@ -245,7 +245,11 @@ public final class Encoder implements Visitor {
     
     public Object visitStringExpression(StringExpression ast, Object o) {
         Frame frame = (Frame) o;
-        for(int i =0;i<ast.SA.spelling.length();i++){
+        for(int i =1;i<ast.SA.spelling.length();i++){
+            if(ast.SA.spelling.charAt(i)==0){
+                break;
+            }
+            else
              emit(Machine.LOADLop, 0, 0, ast.SA.spelling.charAt(i));
         }
        Integer valSize = (Integer) ast.type.visit(this, null);

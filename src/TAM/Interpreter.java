@@ -437,12 +437,14 @@ public class Interpreter {
                 break;
             case Machine.putstringDisplacement:
             {   
-                ST = ST -1;
-                int[] copia = data;
-                for(int i =0;i<copia.length;i++){
-                    if(copia[i]!=0)
-                        str+= (char)copia[i];  
+                ST = ST - 1;
+                for(int i =1;i<data.length;i++){
+                    if(data[i]!=0 && data[i] != '"'){
+                        str+= (char)data[i];
+                        ST = ST - 1;
+                    }
                 }
+                ST = ST - 1;
                 System.out.println(str);
                 break;
             }

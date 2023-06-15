@@ -1,8 +1,11 @@
 let
-    var zx : String
+    var a : String;
+    var b : String
 in
 begin
-    zx :=  "hola";
-	putstring(zx);
+    	a :=  "holaaaaaaaa";
+	b :=  "adios";
+	putstring(a);
+	putstring(b);
 
 end
