@@ -446,7 +446,7 @@ public class Interpreter {
             case Machine.putstringDisplacement:
                 ST = ST - 1;
                 size = data[ST];
-                for(int i = 2;i<size;i++){
+                for(int i = 1;i<size;i++){
                     str+= (char)data[ST-i];
                     /*
                     if(data[i+size]!=0 && data[i+size] != 34){

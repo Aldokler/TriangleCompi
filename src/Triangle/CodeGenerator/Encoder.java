@@ -245,14 +245,14 @@ public final class Encoder implements Visitor {
     
     public Object visitStringExpression(StringExpression ast, Object o) {
         Frame frame = (Frame) o;
-        for(int i =1;i<ast.SA.spelling.length();i++){
+        for(int i =1;i<ast.SA.spelling.length()-1;i++){
             if(ast.SA.spelling.charAt(i)==0){
                 break;
             }
             else
              emit(Machine.LOADLop, 0, 0, ast.SA.spelling.charAt(i));
         }
-        emit(Machine.LOADLop, 0, 0, ast.SA.spelling.length());
+        emit(Machine.LOADLop, 0, 0, ast.SA.spelling.length()-1);
         Integer valSize = (Integer) ast.type.visit(this, null);
         return valSize;
     }
@@ -926,7 +926,6 @@ public final class Encoder implements Visitor {
         elaborateStdPrimRoutine(StdEnvironment.putintDecl, Machine.putintDisplacement);
         elaborateStdPrimRoutine(StdEnvironment.geteolDecl, Machine.geteolDisplacement);
         elaborateStdPrimRoutine(StdEnvironment.puteolDecl, Machine.puteolDisplacement);
-        //elaborateStdPrimRoutine(StdEnvironment.spawnDecl, Machine.spawnDisplacement);
         elaborateStdEqRoutine(StdEnvironment.equalDecl, Machine.eqDisplacement);
         elaborateStdEqRoutine(StdEnvironment.unequalDecl, Machine.neDisplacement);
         elaborateStdPrimRoutine(StdEnvironment.putstringDecl, Machine.putstringDisplacement);
