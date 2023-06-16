@@ -252,7 +252,8 @@ public final class Encoder implements Visitor {
             else
              emit(Machine.LOADLop, 0, 0, ast.SA.spelling.charAt(i));
         }
-       Integer valSize = (Integer) ast.type.visit(this, null);
+        emit(Machine.LOADLop, 0, 0, ast.SA.spelling.length());
+        Integer valSize = (Integer) ast.type.visit(this, null);
         return valSize;
     }
 

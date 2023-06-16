@@ -4,8 +4,8 @@ let
 in
 begin
     	a :=  "holaaaaaaaa";
-	b :=  "adios";
 	putstring(a);
+	b :=  "adios";
 	putstring(b);
 
 end

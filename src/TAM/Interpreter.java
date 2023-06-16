@@ -288,6 +288,14 @@ public class Interpreter {
 
         return sign * temp;
     }
+    
+    public static String reverseString(String original) {
+        StringBuilder reversed = new StringBuilder();
+        for (int i = original.length() - 1; i >= 0; i--) {
+            reversed.append(original.charAt(i));
+        }
+        return reversed.toString();
+    }
 
     static void callPrimitive(int primitiveDisplacement) {
         // Invokes the given primitive routine.
@@ -436,27 +444,19 @@ public class Interpreter {
                 ST = ST - 1; // no action taken at present
                 break;
             case Machine.putstringDisplacement:
-            {   
                 ST = ST - 1;
-                for(int i =1;i<data.length;i++){
-                    if(data[i]!=0 && data[i] != '"'){
-                        str+= (char)data[i];
+                size = data[ST];
+                for(int i = 2;i<size;i++){
+                    str+= (char)data[ST-i];
+                    /*
+                    if(data[i+size]!=0 && data[i+size] != 34){
+                        str+= (char)data[i+size];
                         ST = ST - 1;
-                    }
+                    } else break;
+                    */
                 }
-                ST = ST - 1;
-                System.out.println(str);
+                System.out.println(reverseString(str));
                 break;
-            }
-            /*      case Machine.spawnDisplacement:
-        ST = ST - 1; // no action taken at present
-        System.out.println("Ha aparecido un Thread salvaje");
-        break;*/
-
-            /*      case Machine.spawnDisplacement:
-        ST = ST - 1; // no action taken at present
-        System.out.println("Ha aparecido un Thread salvaje");
-        break;*/
         }
     }
 
