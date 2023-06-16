@@ -1,13 +1,13 @@
 let
     var a : String;
-    var b : String
+    var b : String;
+    var c : String
 in
 begin
-	a:= "hola";
-	putstring(a);
-        putstring(a);
-        b:= "adios";
+	a:= "tuba";
+	b:= "vega";
 	putstring(b);
- 	putstring(b);
+	putstring(a);
+ 	
 
 end
