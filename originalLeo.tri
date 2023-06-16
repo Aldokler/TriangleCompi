@@ -3,9 +3,11 @@ let
     var b : String
 in
 begin
-    	a :=  "holaaaaaaaa";
+	a:= "hola";
 	putstring(a);
-	b :=  "adios";
+        putstring(a);
+        b:= "adios";
 	putstring(b);
+ 	putstring(b);
 
 end

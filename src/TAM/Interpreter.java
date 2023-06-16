@@ -456,6 +456,7 @@ public class Interpreter {
                     */
                 }
                 System.out.println(reverseString(str));
+                str = "";
                 break;
         }
     }
