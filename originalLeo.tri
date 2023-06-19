@@ -8,13 +8,14 @@ var d : String
 in
 begin
 	a:= "hola";
-b:= "paco";
-c:= "cola";
-d:= "mola";
-	putstring(a);
-	putstring(b);
-	putstring(c);
-	putstring(d);
+	b:= "paco";
+	c:= "cola";
+	d:= "mola";
+	
+	if a = b then
+	putstring(a)
+	else
+	putstring(c)
 	
 
 end
