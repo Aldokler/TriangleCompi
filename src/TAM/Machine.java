@@ -96,6 +96,7 @@ public final class Machine {
   public final static int
     booleanSize = 1,
     characterSize = 1,
+    stringSize = 101,
     integerSize = 1,
     addressSize = 1,
     closureSize = 2 * addressSize,

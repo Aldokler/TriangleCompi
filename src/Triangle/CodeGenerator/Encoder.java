@@ -101,6 +101,7 @@ import Triangle.AbstractSyntaxTrees.VnameExpression;
 import Triangle.AbstractSyntaxTrees.WhileCommand;
 
 public final class Encoder implements Visitor {
+    public int valor;
 
     // Commands
     public Object visitAssignCommand(AssignCommand ast, Object o) {
@@ -244,8 +245,13 @@ public final class Encoder implements Visitor {
     }
     
     public Object visitStringExpression(StringExpression ast, Object o) {
-        Frame frame = (Frame) o;
-           
+        Frame frame = (Frame) o; 
+        int variabble = Machine.stringSize-(ast.SA.spelling.length()-2);
+        //System.out.println(ast.SA.spelling.length());
+        //System.out.println(variabble);
+        for(int i =0;i<variabble;i++){
+             emit(Machine.LOADLop, 0, 0, '.');
+        }
         for(int i =1;i<ast.SA.spelling.length()-1;i++){
              emit(Machine.LOADLop, 0, 0, ast.SA.spelling.charAt(i));
         }
@@ -337,6 +343,7 @@ public final class Encoder implements Visitor {
 
     public Object visitVnameExpression(VnameExpression ast, Object o) {
         Frame frame = (Frame) o;
+
         Integer valSize = (Integer) ast.type.visit(this, null);
         encodeFetch(ast.V, frame, valSize.intValue());
         return valSize;
@@ -639,10 +646,10 @@ public final class Encoder implements Visitor {
 
     public Object visitStringTypeDenoter(StringTypeDenoter ast, Object o) {
         if (ast.entity == null) {
-            ast.entity = new TypeRepresentation(Machine.characterSize);
+            ast.entity = new TypeRepresentation(Machine.stringSize);
             writeTableDetails(ast);
         }
-        return new Integer(Machine.characterSize);
+        return new Integer(Machine.stringSize);
     }
     
     //To Do
