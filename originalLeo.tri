@@ -1,21 +1,18 @@
 let
-    var a : String;
+    	var a : String;
 	var b : String;
-var c : String;
-var d : String
-
+	var c : String
 
 in
 begin
-	a:= "hola";
+	a:= "paco";
 	b:= "paco";
 	c:= "cola";
-	d:= "mola";
 	
 	if a = b then
-	putstring(a)
+		putstring(a)
 	else
-	putstring(c)
+		putstring(c)
 	
 
 end

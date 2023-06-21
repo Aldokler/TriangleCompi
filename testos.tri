@@ -1,5 +1,4 @@
 let
-	var holita: Char;
 	proc printHolaMundo()~
 		begin
 			put('o');
