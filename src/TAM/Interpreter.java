@@ -443,17 +443,18 @@ public class Interpreter {
             case Machine.disposeDisplacement:
                 ST = ST - 1; // no action taken at present
                 break;
+            case Machine.concatDisplacement:
+                ST = ST - 1;
+                accumulator = data[ST - 1];
+                ST = ST + 1;
+                data[ST - 1] = overflowChecked(accumulator + data[ST] );
+                break;
             case Machine.putstringDisplacement:
                 ST = ST - 1;
                 size = data[ST];
                 for(int i = 1;i<size;i++){
-                    str+= (char)data[ST-i];
-                    /*
-                    if(data[i+size]!=0 && data[i+size] != 34){
-                        str+= (char)data[i+size];
-                        ST = ST - 1;
-                    } else break;
-                    */
+                    if((char)data[ST-i]!='.' && data[ST-i]!=0 )
+                        str+= (char)data[ST-i];
                 }
                 System.out.println(reverseString(str));
                 //str = "";

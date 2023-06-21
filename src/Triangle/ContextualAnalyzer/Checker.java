@@ -1028,6 +1028,7 @@ public final class Checker implements Visitor {
     StdEnvironment.unequalDecl = declareStdBinaryOp("\\=", StdEnvironment.anyType, StdEnvironment.anyType, StdEnvironment.booleanType);
     StdEnvironment.putstringDecl = declareStdProc("putstring", new SingleFormalParameterSequence(
                                       new ConstFormalParameter(dummyI, StdEnvironment.stringType, dummyPos), dummyPos));
+    StdEnvironment.concat = declareStdBinaryOp("+", StdEnvironment.stringType, StdEnvironment.stringType, StdEnvironment.stringType);
     
 //StdEnvironment.spawnDecl = declareStdProc("spawn", new SingleFormalParameterSequence(
     //                                        new ConstFormalParameter(dummyI, StdEnvironment.commandType, dummyPos), dummyPos));

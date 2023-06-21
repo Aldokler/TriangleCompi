@@ -43,7 +43,7 @@ public final class StdEnvironment {
   public static BinaryOperatorDeclaration
     andDecl, orDecl,
     addDecl, subtractDecl, multiplyDecl, divideDecl, moduloDecl,
-    equalDecl, unequalDecl, lessDecl, notlessDecl, greaterDecl, notgreaterDecl;
+    equalDecl, unequalDecl, lessDecl, notlessDecl, greaterDecl, notgreaterDecl, concat;
 
   public static ProcDeclaration
     getDecl, putDecl, getintDecl, putintDecl, putstringDecl,geteolDecl, puteolDecl, spawnDecl;
