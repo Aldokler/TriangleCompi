@@ -139,7 +139,8 @@ public final class Machine {
     putintDisplacement = 26,
     newDisplacement = 27,
     disposeDisplacement = 28,
-    putstringDisplacement = 29;
+    putstringDisplacement = 29,
+    concatDisplacement = 30;
     //spawnDisplacement = 29;
 
 }

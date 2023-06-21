@@ -1,18 +1,41 @@
-let
-    	var a : String;
-	var b : String;
-	var c : String
-
-in
-begin
-	a:= "paco";
-	b:= "paco";
-	c:= "cola";
-	
-	if a = b then
-		putstring(a)
-	else
-		putstring(c)
-	
-
+let
+
+    	var a : String;
+
+	var b : String;
+
+	var c : String;
+
+	var d : String
+
+
+
+
+
+in
+
+begin
+
+	a:= "hola";
+
+	b:= "adios";
+
+	c:= "diferentes hileras";
+
+	
+
+	if a = b then
+
+		putstring(d)
+
+	else
+
+		putstring(c);
+
+	d := a+b;
+
+	putstring(d);
+
+
+
 end

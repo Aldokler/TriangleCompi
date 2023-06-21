@@ -933,6 +933,7 @@ public final class Encoder implements Visitor {
         elaborateStdEqRoutine(StdEnvironment.equalDecl, Machine.eqDisplacement);
         elaborateStdEqRoutine(StdEnvironment.unequalDecl, Machine.neDisplacement);
         elaborateStdPrimRoutine(StdEnvironment.putstringDecl, Machine.putstringDisplacement);
+        elaborateStdPrimRoutine(StdEnvironment.concat, Machine.concatDisplacement);
     }
 
     // Saves the object program in the named file.
